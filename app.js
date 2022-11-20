@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
@@ -11,7 +12,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://kpurbia:databasehandle@cluster0.uimbpmz.mongodb.net/?retryWrites=true&w=majority/todolistDB");
+mongoose.connect(process.env.MONGO_URL);
 
 const itemsSchema = {
   name: String
@@ -127,11 +128,8 @@ app.get("/about", function(req, res){
   res.render("about");
 });
 
-let port = process.env.PORT;
-if(port == null || post == ""){
-  port = 3000;
-}
+let PORT = process.env.PORT || 3000;
 
-app.listen(port, function() {
+app.listen(PORT, function() {
   console.log("Server has started successfully");
 });
